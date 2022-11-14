@@ -28,7 +28,7 @@ isset($_POST['description']) &&
 isset($_POST['sub'])){
     $name = $_POST['name'];
     $login = $_POST['log'];
-    $pwd = $_POST['pwd'];
+    $pwd = password_hash($_POST['pwd'], PASSWORD_DEFAULT);
     $desc = $_POST['description'];
 // Check connection
 if ($conn->connect_error) {
@@ -45,8 +45,8 @@ function notEmpty($funname,$funlogin,$funpwd,$fundesc){
 function errorMessage() {
     echo " <h3> Please fill correct user data </h3> ";
 }
-function successMessage() {
-    echo "<h3> Your account has been created.
+function successMessage($userName) {
+    echo "<h3> Welcome ". $userName.". Your account has been created.
         Now you can log in! </h3>";
 }
 $emptyCheck = notEmpty($name,$login,$pwd,$desc);
@@ -59,7 +59,7 @@ if($result->num_rows == 0) {
     if ($emptyCheck){
     $sql = "INSERT INTO register VALUES('','$name', '$login', '$pwd', '$desc')";
     if ($conn->query($sql)) {
-        successMessage();
+        successMessage($name);
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     } 

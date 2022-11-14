@@ -22,18 +22,20 @@ isset($_POST['sub'])){
     $loginLog = $_POST['log'];
     $passwordLog = $_POST['pwd'];
 
+    $res = password_hash($passwordLog, PASSWORD_DEFAULT);
+
 if ($conn->connect_error) {
 	die("Connection failed: "
 		. $conn->connect_error);
 }
 $result = $conn->query("SELECT log,pwd FROM register WHERE
- log = '$loginLog' and pwd = '$passwordLog'");
+ log = '$loginLog' and pwd = '$res'");
 if($result->num_rows == 0) {
      echo "<h3> Incorrect password or login  </h3>";
 } else {
-    echo "<h3> Loged in! </h3>";
+    echo "<h3> Loged in successfully! </h3>";
     $result = $conn->query("SELECT name,log,pwd,description 
-FROM register WHERE log = '$loginLog' AND pwd = '$passwordLog'");
+FROM register WHERE log = '$loginLog' AND pwd = '$res'");
     while ($r = mysqli_fetch_object($result)) {
         $name = $r->name;
         $log = $r->log;
