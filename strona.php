@@ -48,10 +48,10 @@
                 @session_start();
                 echo "<div class='text'>". 
                 "<a> User information </a>". "<br>" 
-                ."Name: ".$_SESSION["nameSesion"]. "<br>"
-                ."Login: ".$_SESSION["loginSession"]. "<br>"
-                ."Password: ".$_SESSION["passwordSession"]. "<br>"
-                ."Contact: ".$_SESSION["contactSession"];
+                ."Name: ".@$_SESSION["nameSession"]. "<br>"
+                ."Login: ".@$_SESSION["loginSession"]. "<br>"
+                ."Contact: ".@$_SESSION["contactSession"]. "<br>"
+                ."Loged in status: ".@$_SESSION["status"];
                 "</div>";
             ?>
             </article>

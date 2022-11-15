@@ -28,7 +28,7 @@ isset($_POST['description']) &&
 isset($_POST['sub'])){
     $name = $_POST['name'];
     $login = $_POST['log'];
-    $pwd = password_hash($_POST['pwd'], PASSWORD_DEFAULT);
+    $pwd = password_hash($_POST['pwd'],PASSWORD_DEFAULT);
     $desc = $_POST['description'];
 // Check connection
 if ($conn->connect_error) {
@@ -46,7 +46,7 @@ function errorMessage() {
     echo " <h3> Please fill correct user data </h3> ";
 }
 function successMessage($userName) {
-    echo "<h3> Welcome ". $userName.". Your account has been created.
+    echo "<h3> Welcome ". $userName .". Your account has been created.
         Now you can log in! </h3>";
 }
 $emptyCheck = notEmpty($name,$login,$pwd,$desc);

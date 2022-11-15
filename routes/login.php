@@ -12,42 +12,67 @@ session_start();
             <p><input type="text" name="log"/></p>
             <p>Hasło </p>
         <p><input type="password" name="pwd"/></p>
-        <center><p><input type="submit" value="Zaloguj" name="sub"/></p></center>
+        <h2></h2>
+        <center><p><input type="submit" value="Zaloguj" name="sub"/>
+        <input type="submit" value="Wyloguj" name="out"/></p></center>
     </form>
 </section>
 <?php
+
 if(isset($_POST['log']) && 
 isset($_POST['pwd']) && 
 isset($_POST['sub'])){
     $loginLog = $_POST['log'];
     $passwordLog = $_POST['pwd'];
 
-    $res = password_hash($passwordLog, PASSWORD_DEFAULT);
-
 if ($conn->connect_error) {
 	die("Connection failed: "
 		. $conn->connect_error);
 }
-$result = $conn->query("SELECT log,pwd FROM register WHERE
- log = '$loginLog' and pwd = '$res'");
-if($result->num_rows == 0) {
-     echo "<h3> Incorrect password or login  </h3>";
-} else {
-    echo "<h3> Loged in successfully! </h3>";
-    $result = $conn->query("SELECT name,log,pwd,description 
-FROM register WHERE log = '$loginLog' AND pwd = '$res'");
-    while ($r = mysqli_fetch_object($result)) {
+$result = $conn->query("SELECT pwd,name FROM register WHERE
+log = '$loginLog'");
+while($r = mysqli_fetch_object($result)){
+    $pwdEnc = $r->pwd;
+    $nameMessage = $r->name;
+}
+
+if(@password_verify($passwordLog,$pwdEnc)){
+    echo "<h3> Loged in as ". $nameMessage ."</h3>";
+    $resultNext = $conn->query("SELECT name,log,description FROM register WHERE log = '$loginLog'");
+    while ($r = mysqli_fetch_object($resultNext)) {
         $name = $r->name;
         $log = $r->log;
-        $pwd = $r->pwd;
         $description = $r->description;
+        }
+        $_SESSION["nameSession"] = $name;
+        $_SESSION["loginSession"] = $log;
+        $_SESSION["contactSession"] = $description;
+        $_SESSION["status"] = 'True';
+
     }
-    $_SESSION["nameSesion"] = $name;
-    $_SESSION["loginSession"] = $log;
-    $_SESSION["passwordSession"] = $pwd;
-    $_SESSION["contactSession"] = $description;
-    
+else {
+    @$_SESSION["status"] = 'False';
+    echo "<h3> Incorrect password or login  </h3>";
+    unset($_SESSION['nameSession']);
+    unset($_SESSION['loginSession']);
+    unset($_SESSION['contactSession']);
+        }
 }
+function logOutMessageError(){
+    echo "<h3> Please log in first to log out</h3>";
 }
+function logOutMessage($userName){
+    echo "<h3> Wylogowano użytkownika ".$userName."</h3>";
+}
+if(isset($_POST['out']) && !empty($_SESSION['loginSession'])){
+    logOutMessage(@$_SESSION["nameSession"]);
+    @$_SESSION["status"] = 'False';
+    unset($_SESSION['nameSession']);
+    unset($_SESSION['loginSession']);
+    unset($_SESSION['contactSession']);
+} elseif (isset($_POST['out']) && empty($_SESSION['loginSession'])){
+    logOutMessageError();
+}
+
 ?>
 
