@@ -14,7 +14,9 @@ session_start();
         <p><input type="password" name="pwd"/></p>
         <h2></h2>
         <center><p><input type="submit" value="Zaloguj" name="sub"/>
-        <input type="submit" value="Wyloguj" name="out"/></p></center>
+        <input type="submit" value="Wyloguj" name="out"/>
+        <p><input type="submit" value="Zapomniałem hasła" name="fp"/>
+    </p></center>
     </form>
 </section>
 <?php
@@ -38,15 +40,17 @@ while($r = mysqli_fetch_object($result)){
 
 if(@password_verify($passwordLog,$pwdEnc)){
     echo "<h3> Loged in as ". $nameMessage ."</h3>";
-    $resultNext = $conn->query("SELECT name,log,description FROM register WHERE log = '$loginLog'");
+    $resultNext = $conn->query("SELECT id,name,log,description FROM register WHERE log = '$loginLog'");
     while ($r = mysqli_fetch_object($resultNext)) {
         $name = $r->name;
         $log = $r->log;
         $description = $r->description;
+        $id = $r->id;
         }
         $_SESSION["nameSession"] = $name;
         $_SESSION["loginSession"] = $log;
         $_SESSION["contactSession"] = $description;
+        $_SESSION["userId"] = $id;
         $_SESSION["status"] = 'True';
 
     }
@@ -73,6 +77,10 @@ if(isset($_POST['out']) && !empty($_SESSION['loginSession'])){
 } elseif (isset($_POST['out']) && empty($_SESSION['loginSession'])){
     logOutMessageError();
 }
-
+if(isset($_POST['fp']) && $_SESSION["status"] == 'False'){
+    header("Location: strona.php?page=./routes/passwordRecover");
+} elseif (isset($_POST['fp']) && $_SESSION["status"] == 'True') {
+    echo "<h3> You have to log out first </h3>";
+}
 ?>
 

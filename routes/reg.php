@@ -11,15 +11,12 @@
             <p><input type="text" name="log"/></p>
             <p>Hasło </p>
             <p><input type="password" name="pwd"/></p>
-            <p>Kontakt </p>
+            <p>E-mail </p>
             <p><input type="text" name="description"></input></p>
             <center><p><input type="submit" value="Zarejestruj" name="sub"/></p></center>
     </form>
 </section>
 <?php
-
-// Create connection
-
 
 if(isset($_POST['name']) && 
 isset($_POST['log']) && 

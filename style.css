@@ -82,6 +82,21 @@ body {
     transition: 0.2s;
     font-weight: bolder;
 }
+.menu-account {
+    right: auto;
+    float: right;
+    background-color: white;
+}
+.menu-account a{
+    color: black;
+    font-size: 25px;
+    font-weight: 900;
+}
+.menu-account a:hover{
+    color: #eb2632;
+    transition: 0.2s;
+    font-weight: bolder;
+}
 
 footer {
     width: 100%;
@@ -160,4 +175,9 @@ input[type="submit"]{
     font-weight: bold;
     font-family: 'kanit', sans-serif;
     font-size: large;
+}
+.shop{
+    float: left;
+    color: white;
+    padding: 5px;
 }

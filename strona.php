@@ -24,13 +24,16 @@
     <!-- Menu Navigation Bar -->
     <nav class="menu">
         <a href="strona.php?page=./routes/home">Home</a>
-        <a href="#news">Create Gadgets</a>
-        <a href="#gadgets">Gadgets Shop</a>
+        <a href="strona.php?page=./routes/create">Create Gadgets</a>
+        <a href="strona.php?page=./routes/shop">Gadgets Shop</a>
         <div class="menu-log">
         <a href="strona.php?page=./routes/login">Login</a>
         </div>
         <div class="menu-reg">
         <a href="strona.php?page=./routes/reg">Register</a>
+        </div>
+        <div class="menu-account">
+        <a href="strona.php?page=./routes/account">My Account</a>
         </div>
       </nav>
       
@@ -50,7 +53,7 @@
                 "<a> User information </a>". "<br>" 
                 ."Name: ".@$_SESSION["nameSession"]. "<br>"
                 ."Login: ".@$_SESSION["loginSession"]. "<br>"
-                ."Contact: ".@$_SESSION["contactSession"]. "<br>"
+                ."E-mail: ".@$_SESSION["contactSession"]. "<br>"
                 ."Loged in status: ".@$_SESSION["status"];
                 "</div>";
             ?>
