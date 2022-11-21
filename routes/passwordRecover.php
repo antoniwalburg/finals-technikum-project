@@ -21,7 +21,18 @@ require 'phpmailer/src/Exception.php';
 require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
 
-if(isset($_POST['ef']) && isset($_POST['sub'])){
+// REST
+if(isset($_POST['ef'])){
+    $email = $_POST['ef'];
+$description = "";
+$result = $conn->query("SELECT description FROM register WHERE
+description = '$email'");
+while($r = mysqli_fetch_object($result)){
+    $description = $r->description;
+    }
+}
+
+if(isset($_POST['ef']) && isset($_POST['sub']) && ($email == $description)){
 
     $code = random_int(100000, 999999);
     $_SESSION["codeEmail"] = $code;
@@ -58,11 +69,11 @@ if(isset($_POST['ef']) && isset($_POST['sub'])){
     $mail->Subject = $mainMsg;
     $mail->Body = wordwrap($msg);
     $mail->send();
-    
-    // REST
-    if(isset($_POST['sub'])){
-        header("Location: strona.php?page=./routes/code");
-    }
 
+    header("Location: strona.php?page=./routes/code");
+
+}
+  elseif (isset($_POST['ef']) && isset($_POST['sub']) && ($email != $description)){
+    echo "<h3> Invalid email </h3>";
 }
 ?>
