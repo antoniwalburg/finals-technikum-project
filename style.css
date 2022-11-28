@@ -181,3 +181,17 @@ input[type="submit"]{
     color: white;
     padding: 5px;
 }
+.home h1{
+    color: white;
+    font-size: xx-large;
+    font-weight: bolder;
+}
+.home img{
+    height: 40vh;
+    width: 50vw;
+    border: 15px solid black;
+    border-radius: 15px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
