@@ -11,6 +11,8 @@
             <p><input type="text" name="log"/></p>
             <p>Hasło </p>
             <p><input type="password" name="pwd"/></p>
+            <p>Powtórz Hasło </p>
+            <p><input type="password" name="pwd-repeat"/></p>
             <p>E-mail </p>
             <p><input type="text" name="description"></input></p>
             <center><p><input type="submit" value="Zarejestruj" name="sub"/></p></center>
@@ -53,7 +55,7 @@ $result = $conn->query("SELECT log FROM register WHERE
 
 if($result->num_rows == 0) {
 
-    if ($emptyCheck){
+    if ($emptyCheck && ($_POST['pwd'] == $_POST['pwd-repeat'])){
     $sql = "INSERT INTO register VALUES('','$name', '$login', '$pwd', '$desc')";
     if ($conn->query($sql)) {
         successMessage($name);
