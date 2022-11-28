@@ -53,9 +53,12 @@ $emptyCheck = notEmpty($name,$login,$pwd,$desc);
 $result = $conn->query("SELECT log FROM register WHERE
  log = '$login'");
 
-if($result->num_rows == 0) {
+$resultNext = $conn->query("SELECT description FROM register WHERE
+description = '$desc'");
 
-    if ($emptyCheck && ($_POST['pwd'] == $_POST['pwd-repeat'])){
+if($result->num_rows == 0 and $resultNext->num_rows == 0) {
+
+    if ($emptyCheck && ($_POST['pwd'] == $_POST['pwd-repeat']) && filter_var($desc, FILTER_VALIDATE_EMAIL)){
     $sql = "INSERT INTO register VALUES('','$name', '$login', '$pwd', '$desc')";
     if ($conn->query($sql)) {
         successMessage($name);
