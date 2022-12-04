@@ -10,9 +10,9 @@ if(!empty($_SESSION['loginSession'])){
 echo "<section class='container'>".
     "<form action='' method='POST'>".
         "<center><h2>WITAJ ".@strtoupper($_SESSION["nameSession"])."</h2></center>".
-            "<p>Login </p>".
+            "<p> Edytuj Login </p>".
             "<p><input type='text' name='log'/></p>".
-            "<p>Hasło </p>".
+            "<p> Edytuj Hasło </p>".
         "<p><input type='password' name='pwd'/></p>".
         "<h2></h2>".
         "<center><p><input type='submit' value='Edytuj Dane' name='sub'/></p></center>".
@@ -30,14 +30,23 @@ function errorMessage(){
     && !empty($_POST["pwd"])){
         $userId = $_SESSION["userId"];
         $accountLogin = $_POST["log"];
-        $accountPassword = password_hash($_POST["pwd"],PASSWORD_DEFAULT);
-        $result = $conn->query("UPDATE register set log = '$accountLogin',
-        pwd = '$accountPassword' WHERE id = '$userId'");
-        message();
-        $_SESSION["status"] = 'False';
-        unset($_SESSION['nameSession']);
-        unset($_SESSION['loginSession']);
-        unset($_SESSION['contactSession']);
+
+        $resultLog = $conn->query("SELECT log FROM register WHERE
+        log = '$accountLogin'");
+
+        if ($resultLog->num_rows == 0){
+
+            $accountPassword = password_hash($_POST["pwd"],PASSWORD_DEFAULT);
+            $result = $conn->query("UPDATE register set log = '$accountLogin',
+            pwd = '$accountPassword' WHERE id = '$userId'");
+            message();
+            $_SESSION["status"] = 'False';
+            unset($_SESSION['nameSession']);
+            unset($_SESSION['loginSession']);
+            unset($_SESSION['contactSession']);
+        } else {
+            errorMessage();
+        }
     } elseif(isset($_POST["sub"]) 
         && (empty($_POST["log"]) || empty($_POST["pwd"]))) {
         @errorMessage();

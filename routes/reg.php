@@ -41,6 +41,9 @@ function notEmpty($funname,$funlogin,$funpwd,$fundesc){
     return FALSE;
     }
 }
+function errorMessagePassword() {
+    echo " <h3> Incorrect Password </h3> ";
+}
 function errorMessage() {
     echo " <h3> Please fill correct user data </h3> ";
 }
@@ -65,7 +68,11 @@ if($result->num_rows == 0 and $resultNext->num_rows == 0) {
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     } 
-} else {
+} 
+elseif ($emptyCheck && ($_POST['pwd'] != $_POST['pwd-repeat']) && filter_var($desc, FILTER_VALIDATE_EMAIL)){
+    errorMessagePassword();
+}
+  else {
     errorMessage();
     } 
 } else {

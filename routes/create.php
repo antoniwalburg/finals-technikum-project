@@ -34,7 +34,7 @@ if(isset($_POST['prodName']) && isset($_POST['description']) && isset($_POST['im
         if($result = mysqli_query($conn, $sql)) echo "Dodano $name";
     } 
     elseif(!isset($_POST['sub']) && empty($name) || empty($description) || empty($imageUrl)){
-        echo "Podaj poprawne dane produktu";
+        echo "<h3> Podaj poprawne dane produktu </h3>";
     }
 }
 ?>

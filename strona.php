@@ -39,7 +39,7 @@
       
     <!-- Body section -->
     <main class = "body_sec">
-        <section id="Content">
+        <section class="Content">
             <article class="right">
             <?php
                 include($page.".php");
