@@ -62,6 +62,6 @@
       </main>
       
     <!-- Footer Section -->
-    <footer>Made By Antoni Walburg</footer>
+    <footer>MADE BY ANTONI WALBURG</footer>
 </body>
 </html>
