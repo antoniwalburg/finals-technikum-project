@@ -38,7 +38,7 @@ while($r = mysqli_fetch_object($result)){
     $nameMessage = $r->name;
 }
 
-if(@password_verify($passwordLog,$pwdEnc)){
+if(@password_verify($passwordLog,$pwdEnc) && $_SESSION["status"] != 'True'){
     echo "<h3> Loged in as ". $nameMessage ."</h3>";
     $resultNext = $conn->query("SELECT id,name,log,description FROM register WHERE log = '$loginLog'");
     while ($r = mysqli_fetch_object($resultNext)) {
@@ -51,15 +51,15 @@ if(@password_verify($passwordLog,$pwdEnc)){
         $_SESSION["loginSession"] = $log;
         $_SESSION["contactSession"] = $description;
         $_SESSION["userId"] = $id;
+        setcookie("userId", $id, time() + 3600, '/');
         $_SESSION["status"] = 'True';
-
-    }
+}
+elseif(@password_verify($passwordLog,$pwdEnc) && $_SESSION["status"] == 'True'){
+    echo "<h3> Log out first to log in to other user </h3>";
+}
+    
 else {
-    @$_SESSION["status"] = 'False';
     echo "<h3> Incorrect password or login  </h3>";
-    unset($_SESSION['nameSession']);
-    unset($_SESSION['loginSession']);
-    unset($_SESSION['contactSession']);
         }
 }
 function logOutMessageError(){

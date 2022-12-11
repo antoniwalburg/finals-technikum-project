@@ -1,7 +1,4 @@
 <?php
-// Start the session
-session_start();
-
 require_once 'connection.php';
 ?>
 <section class="container">
@@ -29,9 +26,13 @@ if(isset($_POST['prodName']) && isset($_POST['description']) && isset($_POST['im
     $imageUrl = $_POST['imageUrl'];
     if(!empty($name) && !empty($description) && !empty($imageUrl) && (preg_match($regex, strval($imageUrl)) == 1)){
         // zapytanie do bazy danych, które wstawi nowy produkt
-        $sql = "INSERT INTO products(id, nazwa, opis, url_obrazu)
-        VALUES (NULL, '$name', '$description', '$imageUrl')";
-        if($result = mysqli_query($conn, $sql)) echo "Dodano $name";
+        $sql = "INSERT INTO products(id, nazwa, opis, url_obrazu, userId)
+        VALUES (NULL, '$name', '$description', '$imageUrl', $_COOKIE[userId])";
+        if($result = mysqli_query($conn, $sql)){
+            echo "Dodano $name";
+            // echo $_COOKIE['userId'];
+
+        }
     } 
     elseif(!isset($_POST['sub']) && empty($name) || empty($description) || empty($imageUrl)){
         echo "<h3> Podaj poprawne dane produktu </h3>";

@@ -1,4 +1,8 @@
 <?php
+// Start the session
+session_start();
+?>
+<?php
     require_once 'connection.php';
 ?>
 
@@ -47,6 +51,9 @@ function errorMessagePassword() {
 function errorMessage() {
     echo " <h3> Please fill correct user data </h3> ";
 }
+function errorMessageLoged() {
+    echo " <h3> Please log out first to create user </h3> ";
+}
 function successMessage($userName) {
     echo "<h3> Welcome ". $userName .". Your account has been created.
         Now you can log in! </h3>";
@@ -61,13 +68,16 @@ description = '$desc'");
 
 if($result->num_rows == 0 and $resultNext->num_rows == 0) {
 
-    if ($emptyCheck && ($_POST['pwd'] == $_POST['pwd-repeat']) && filter_var($desc, FILTER_VALIDATE_EMAIL)){
+    if ($emptyCheck && ($_POST['pwd'] == $_POST['pwd-repeat']) && filter_var($desc, FILTER_VALIDATE_EMAIL) && $_SESSION["status"] != 'True'){
     $sql = "INSERT INTO register VALUES('','$name', '$login', '$pwd', '$desc')";
     if ($conn->query($sql)) {
         successMessage($name);
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     } 
+}
+elseif ($emptyCheck && ($_POST['pwd'] == $_POST['pwd-repeat']) && filter_var($desc, FILTER_VALIDATE_EMAIL) && $_SESSION["status"] == 'True'){
+    errorMessageLoged();
 } 
 elseif ($emptyCheck && ($_POST['pwd'] != $_POST['pwd-repeat']) && filter_var($desc, FILTER_VALIDATE_EMAIL)){
     errorMessagePassword();
@@ -80,4 +90,3 @@ elseif ($emptyCheck && ($_POST['pwd'] != $_POST['pwd-repeat']) && filter_var($de
     } 
 }
 ?>
-

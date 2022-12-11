@@ -1,22 +1,26 @@
 <?php
     require_once 'connection.php';
+    session_start();
 ?>
-<form action="" method="POST"> 
-  <center><h1>Dostępne gadżety Pogoni Szczecin</h1></center>
-  <center><p><input type="text" name="search"/></p> </center>
-  <center><p><input type="submit" value="Wyszukaj" name="sub"/>
-  <section class ="wrap">
-  <section class="container">
-</form>
-
 <?php
+
+echo "<form method='POST'>".
+  "<center><h1>Dostępne gadżety Pogoni Szczecin użytkownika ".strtoupper($_SESSION['nameSession'])."</h1></center>".
+  "<center><p><input type='text' name='search'/></p> </center>".
+  "<center><p><input type='submit' value='Wyszukaj' name='sub'/>".
+  "<section class ='wrap'>".
+  "<section class='container'>".
+"</form>";
 
     // select 
     $item = "item";
     $image = "image";
     $button = "btn";
+    if ($_SESSION["status"] == 'True'){
+
     // query, które wyświetli obecne produkty, które znajdują się w bazie
-    $query = "SELECT * FROM products WHERE nazwa like '".@$_POST['search']."%'";
+    $query = "SELECT * FROM products WHERE userId = $_COOKIE[userId] AND (nazwa like '%".@$_POST['search']."%' OR opis like '%".@$_POST['search']."%')";
+
     $result = mysqli_query($conn, $query);
     while($row = mysqli_fetch_array($result)){
           $nazwa = $row['nazwa'];
@@ -31,7 +35,7 @@
             <a href=$productDetailsPath><img src=$url_obrazu>
             </a>
             </section>";
-
+    }
 	}
 ?>
 </section>
